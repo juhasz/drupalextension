@@ -40,6 +40,11 @@ class DrupalContext extends MinkContext implements DrupalAwareInterface, Transla
   protected $dispatcher;
 
   /**
+   * @var bool
+   */
+  protected $cleanUpAfterScenario = TRUE;
+
+  /**
    * Basic auth user and password.
    *
    * @var array
@@ -89,6 +94,15 @@ class DrupalContext extends MinkContext implements DrupalAwareInterface, Transla
    * @var string
    */
   private $drushOutput;
+
+  /**
+   * Sets the cleanup flag.
+   *
+   * @param bool $clean_up_after_scenario
+   */
+  public function setCleanUpAfterScenario($clean_up_after_scenario) {
+    $this->cleanUpAfterScenario = $clean_up_after_scenario;
+  }
 
   /**
    * Initialize subcontexts.
@@ -241,6 +255,10 @@ class DrupalContext extends MinkContext implements DrupalAwareInterface, Transla
    * @AfterScenario
    */
   public function afterScenario($event) {
+    if (!$this->cleanUpAfterScenario) {
+      return;
+    }
+
     // Remove any nodes that were created.
     if (!empty($this->nodes)) {
       foreach ($this->nodes as $node) {
