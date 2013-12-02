@@ -9,8 +9,15 @@ use Drupal\Exception\BootstrapException;
  * Drupal 7 core.
  */
 class Drupal7 implements CoreInterface {
-  private $drupalRoot;
-  private $uri;
+  /**
+   * var @string
+   */
+  protected $drupalRoot;
+
+  /**
+   * var @string
+   */
+  protected $uri;
 
   /**
    * Set drupalRoot.
@@ -18,6 +25,20 @@ class Drupal7 implements CoreInterface {
   public function __construct($drupalRoot, $uri = 'default') {
     $this->drupalRoot = realpath($drupalRoot);
     $this->uri = $uri;
+  }
+
+  /**
+   * Returns the Drupal root path.
+   */
+  public function getDrupalRoot() {
+    return $this->drupalRoot;
+  }
+
+  /**
+   * Returns the uri.
+   */
+  public function getUri() {
+    return $this->uri;
   }
 
   /**
